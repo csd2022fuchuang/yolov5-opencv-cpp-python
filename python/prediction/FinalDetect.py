@@ -142,15 +142,15 @@ def is_in_banned_area(center, bboxArea, areaPoint, factor=0.1, img='NULL'):
         else:
             return False
     else: #线区域
+        circle_r = bboxArea * factor  # 检测圆域半径
+
         areaMinX = min(list([k[0] for k in areaPoint]))
         areaMaxX = max(list([k[0] for k in areaPoint]))
         areaMinY = min(list([k[1] for k in areaPoint]))
         areaMaxY = max(list([k[1] for k in areaPoint]))
-        if not (areaMinX - 5 <= center[0] <= areaMaxX + 5 and
-                areaMinY - 5 <= center[1] <= areaMaxY + 5):  # 在区域外
+        if not (areaMinX - circle_r <= center[0] <= areaMaxX + circle_r and
+                areaMinY - circle_r <= center[1] <= areaMaxY + circle_r):  # 在区域外
             return False
-
-        circle_r = bboxArea * factor #检测圆域半径
 
         if not img == 'NULL':
             cv2.circle(img, center, int(circle_r), (0, 255, 0), 4)
